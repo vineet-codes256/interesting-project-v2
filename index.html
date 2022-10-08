@@ -231,7 +231,7 @@
                 video.play();
                 setTimeout(function () {
                   video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
-                }, 1500);
+                }, 500);
               } catch (e) {
                 console.log(e);
                 setTimeout(() => {
@@ -261,7 +261,7 @@
       setTimeout(() => {
         location.reload();
       }, 25000);
-      document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled.webp' alt='Rick Rolled' />";
+      document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled2.webp' alt='Rick Rolled' />";
       document.onmousedown = function() {
         setTimeout(() => {
           location.reload();
