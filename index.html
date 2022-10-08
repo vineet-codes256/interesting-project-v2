@@ -225,17 +225,20 @@
               document.querySelectorAll("div").forEach((div) => {
                 div.remove();
               });
+              document.querySelector("video").classList.add('fullscreen');
               document.querySelector("video").style.display = "";
               try {
                 video.play();
-                video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
+                setTimeout(function () {
+                  video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
+                }, 1500);
               } catch (e) {
                 console.log(e);
                 setTimeout(() => {
                   openFullscreen(e);
                 }, 1000);
               };
-          }, 500);
+          }, 1400);
         } catch (e) {console.log(e)};
       } else {
         video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
@@ -257,8 +260,13 @@
       playing = false;
       setTimeout(() => {
         location.reload();
-      }, 10000);
-      document.body.innerHTML = "<h1 style='color: white; text-align: center; top: 0; left: 0; right: 0; bottom: 0; position: absolute; margin: auto;'>You have been Rick Rolled!</h1>";
+      }, 25000);
+      document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled.webp' alt='Rick Rolled' />";
+      document.onmousedown = function() {
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+      }
     }
     document.onkeydown = function(event) {
       if (
