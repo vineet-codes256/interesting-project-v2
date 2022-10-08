@@ -200,19 +200,6 @@
   </video>
   <script type="module">
     let playing = false;
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-analytics.js";
-    const firebaseConfig = {
-      apiKey: "AIzaSyBSuAc3Jf3dwCfMhuWv3-zNcv6aoZf6_oU",
-      authDomain: "djago-netflix-clone.firebaseapp.com",
-      projectId: "djago-netflix-clone",
-      storageBucket: "djago-netflix-clone.appspot.com",
-      messagingSenderId: "452811297479",
-      appId: "1:452811297479:web:3d935859624e6e80a124e2",
-      measurementId: "G-HB7Z2BKMV0"
-    };
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
     function openFullscreen(e) {
       if(!playing) {
         playing = true;
@@ -261,7 +248,7 @@
       setTimeout(() => {
         location.reload();
       }, 25000);
-      document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled2.webp' alt='Rick Rolled' />";
+      document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled.webp' alt='Rick Rolled' />";
       document.onmousedown = function() {
         setTimeout(() => {
           location.reload();
