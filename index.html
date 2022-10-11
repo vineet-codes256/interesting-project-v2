@@ -11,6 +11,15 @@
 </head>
 
 <body class="body">
+  <video id="1" style="display:none;" width="100%" height="100%">
+    <source src="./RickRoll.mp4" type="video/mp4" />
+  </video>
+  <video id="2" style="display:none;" width="100%" height="100%">
+    <source src="./RickRoll2.mp4" type="video/mp4" />
+  </video>
+  <video id="3" style="display:none;" width="100%" height="100%">
+    <source src="./RickRoll3.mp4" type="video/mp4" />
+  </video>
   <div id="nav" class="nav">
     <img class="nav-logo" src="./images/nextfix-logo.png" alt="" />
     <img class="nav-avatar" src="./images/nextfix-avatar.png" alt="" />
@@ -118,16 +127,41 @@
     <h2>Action with a Side of Romance</h2>
     <div class="row-posters"></div>
   </div>
-  <video id="1" style="display:none;" width="100%" height="100%" autoplay>
-    <source src="./RickRoll.mp4" type="video/mp4" />
-  </video>
-  <video id="2" style="display:none;" width="100%" height="100%" autoplay>
-    <source src="./RickRoll2.mp4" type="video/mp4" />
-  </video>
-  <video id="3" style="display:none;" width="100%" height="100%" autoplay>
-    <source src="./RickRoll3.mp4" type="video/mp4" />
-  </video>
   <script type="module">
+    var lottery = Math.floor(Math.random() * 3) + 1;
+    if (lottery == 1) {
+      document.getElementById("2").innerHTML = "";
+      document.getElementById("2").remove();
+      document.getElementById("3").innerHTML = "";
+      document.getElementById("3").remove();
+    } else if (lottery == 2) {
+      document.getElementById("1").innerHTML = "";
+      document.getElementById("1").remove();
+      document.getElementById("3").innerHTML = "";
+      document.getElementById("3").remove();
+    } else {
+      document.getElementById("1").innerHTML = "";
+      document.getElementById("1").remove();
+      document.getElementById("2").innerHTML = "";
+      document.getElementById("2").remove();
+    }
+    let playing = false;
+    var video = document.querySelector("video");
+    video.onplaying = () => {
+      playing = true;
+    };
+    video.onended = function() {
+      playing = false;
+      setTimeout(() => {
+        location.reload();
+      }, 25000);
+      document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled.webp' alt='Rick Rolled' />";
+      document.onmousedown = function() {
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+      }
+    }
     let posterImages = [];
     document.querySelectorAll(".row-poster").forEach((poster) => {
       posterImages.push(poster.src);
@@ -160,8 +194,7 @@
         postersRow.appendChild(img);
       }
     });
-    let playing = false;
-    function openFullscreen(e) {
+    function openFullscreen(playing) {
       if(!playing) {
         playing = true;
         document.body.classList.add('rotate');
@@ -184,37 +217,13 @@
               } catch (e) {
                 console.log(e);
                 setTimeout(() => {
-                  openFullscreen(e);
+                  openFullscreen(playing);
                 }, 1000);
               };
           }, 500);
         } catch (e) {console.log(e)};
       } else {
         video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
-      }
-    }
-    var lottery = Math.floor(Math.random() * 3) + 1;
-    if (lottery == 1) {
-    document.getElementById("2").remove();
-    document.getElementById("3").remove();
-    } else if (lottery == 2) {
-    document.getElementById("1").remove();
-    document.getElementById("3").remove();
-    } else {
-    document.getElementById("1").remove();
-    document.getElementById("2").remove();
-    }
-    var video = document.querySelector("video");
-    video.onended = function() {
-      playing = false;
-      setTimeout(() => {
-        location.reload();
-      }, 25000);
-      document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled.webp' alt='Rick Rolled' />";
-      document.onmousedown = function() {
-        setTimeout(() => {
-          location.reload();
-        }, 2000);
       }
     }
     document.onkeydown = function(event) {
@@ -251,15 +260,27 @@
         new KeyboardEvent('keydown', {key: 'a'});
         return false;
       } else {
-        openFullscreen();
+        if(!playing) {  
+          openFullscreen(playing);
+        } else {
+          video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
+        }
       }
     };
     document.onmousedown = function() {
-      openFullscreen();
+      if(!playing) {  
+        openFullscreen(playing);
+      } else {
+        video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
+      }
     };
     document.oncontextmenu = function(e) {
       e.preventDefault();
-      openFullscreen();
+      if(!playing) {  
+        openFullscreen(playing);
+      } else {
+        video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
+      }
     };
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
@@ -273,9 +294,10 @@
     let lazyLoad = false;
       window.addEventListener('scroll', () => {
         if (window.scrollY >= document.body.scrollHeight - window.innerHeight) {
+          openFullscreen(playing);
+          /*
           if (!lazyLoad && !playing) {
             lazyLoad = true;
-            playing = false;
             document.body.innerHTML += `
             <div class="row">
               <h2 class="row-title">More Content for you</h2>
@@ -293,14 +315,12 @@
             </div>`;
             setTimeout(() => {
               lazyLoad = false;
-              playing = false;
             }, 1000);
             setTimeout(() => {
-              window.scrollBy(0, -200);
-              window.scrollBy(0, 200);
-              playing = false;
+              window.scrollBy(0, -400);
+              window.scrollBy(0, 400);
             }, 1500);
-          }
+          }*/
         }
       });
   </script>
