@@ -57,7 +57,6 @@ document.querySelectorAll(".row-posters").forEach((postersRow) => {
         }
         posterImages.push(img.src);
         img.classList.add("row-poster");
-        $(img).lazyload({effect: "fadeIn", threshold: 200, failure_limit: 100, skip_invisible: false});
         if (postersRow.classList.contains("first-row-posters")) {
             img.classList.add("row-posterLarge");
         }
