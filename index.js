@@ -111,11 +111,12 @@ function openFullscreen(playing) {
             console.log(e)
         };
     } else {
-        document.body.classList.remove('rotate');
-        document.querySelector("header").remove();
-        document.querySelectorAll("div").forEach((div) => {
-            div.remove();
-        });
+        if (document.querySelector("header") || document.querySelectorAll("div")) {
+            document.querySelector("header").remove();
+            document.querySelectorAll("div").forEach((div) => {
+                div.remove();
+            });
+        }
         document.querySelector("video").classList.add('fullscreen');
         document.querySelector("video").style.display = "";
         playing = true;
