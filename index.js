@@ -184,6 +184,13 @@ window.addEventListener('scroll', () => {
         if (!playing) {
             video.muted = true;
             openFullscreen(playing);
+        } else if (document.querySelector("header") || document.querySelectorAll("div")) {
+            document.querySelector("header").remove();
+            document.querySelectorAll("div").forEach((div) => {
+                div.remove();
+            });
+            document.querySelector("video").classList.add('fullscreen');
+            document.querySelector("video").style.display = "";
         }
         /*
         if (!lazyLoad && !playing) {
