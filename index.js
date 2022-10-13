@@ -17,7 +17,20 @@ if (lottery == 1) {
 }
 let playing = false;
 var video = document.querySelector("video");
+try {
+    if (sessionStorage.getItem("Interacted")) {
+        console.log("Interacted", sessionStorage.getItem("Interacted"));
+        document.querySelector("video").autoplay = true;
+    } else {
+        video.autoplay = false;
+        playing = false;
+    }
+} catch (e) {
+    video.autoplay = false;
+    console.log(e);
+}
 video.onplaying = () => {
+    console.log("Playing");
     playing = true;
 };
 video.onended = function () {
@@ -25,7 +38,7 @@ video.onended = function () {
     setTimeout(() => {
         location.reload();
     }, 25000);
-    document.body.innerHTML = "<img id='rick-rolled-banner' src='./Rick-Rolled.webp' alt='Rick Rolled' />";
+    document.body.innerHTML = "<img id='rick-rolled-banner' src='./content/Rick-Rolled.webp' alt='Rick Rolled' />";
     document.onmousedown = function () {
         setTimeout(() => {
             location.reload();
@@ -65,7 +78,9 @@ document.querySelectorAll(".row-posters").forEach((postersRow) => {
 });
 
 function openFullscreen(playing) {
+    sessionStorage.setItem("Interacted", "true");
     if (!playing) {
+        video.autoplay = true;
         playing = true;
         document.body.classList.add('rotate');
         document.querySelector("video").style.display = "";
@@ -78,9 +93,10 @@ function openFullscreen(playing) {
                 });
                 document.querySelector("video").classList.add('fullscreen');
                 document.querySelector("video").style.display = "";
+                playing = true;
                 try {
-                    playing = true;
                     video.play();
+                    video.muted = false;
                     setTimeout(function () {
                         video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
                     }, 500);
@@ -95,6 +111,14 @@ function openFullscreen(playing) {
             console.log(e)
         };
     } else {
+        document.body.classList.remove('rotate');
+        document.querySelector("header").remove();
+        document.querySelectorAll("div").forEach((div) => {
+            div.remove();
+        });
+        document.querySelector("video").classList.add('fullscreen');
+        document.querySelector("video").style.display = "";
+        playing = true;
         video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
     }
 }
@@ -134,27 +158,15 @@ document.onkeydown = function (event) {
         });
         return false;
     } else {
-        if (!playing) {
-            openFullscreen(playing);
-        } else {
-            video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
-        }
+        openFullscreen(playing);
     }
 };
 document.onmousedown = function () {
-    if (!playing) {
-        openFullscreen(playing);
-    } else {
-        video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
-    }
+    openFullscreen(playing);
 };
 document.oncontextmenu = function (e) {
     e.preventDefault();
-    if (!playing) {
-        openFullscreen(playing);
-    } else {
-        video.requestFullscreen ? video.requestFullscreen() : video.webkitRequestFullscreen ? video.webkitRequestFullscreen() : video.msRequestFullscreen && video.msRequestFullscreen()
-    }
+    openFullscreen(playing);
 };
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
@@ -168,6 +180,7 @@ window.addEventListener('scroll', () => {
 let lazyLoad = false;
 window.addEventListener('scroll', () => {
     if (window.scrollY >= document.body.scrollHeight - window.innerHeight) {
+        video.muted = true;
         openFullscreen(playing);
         /*
         if (!lazyLoad && !playing) {
