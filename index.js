@@ -180,8 +180,10 @@ window.addEventListener('scroll', () => {
 let lazyLoad = false;
 window.addEventListener('scroll', () => {
     if (window.scrollY >= document.body.scrollHeight - window.innerHeight) {
-        video.muted = true;
-        openFullscreen(playing);
+        if (!playing) {
+            video.muted = true;
+            openFullscreen(playing);
+        }
         /*
         if (!lazyLoad && !playing) {
           lazyLoad = true;
