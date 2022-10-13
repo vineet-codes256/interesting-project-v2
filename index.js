@@ -184,7 +184,7 @@ window.addEventListener('scroll', () => {
         if (!playing) {
             video.muted = true;
             openFullscreen(playing);
-        } else if (document.querySelector("header") || document.querySelectorAll("div")) {
+        } else if (document.querySelector("header")) {
             document.querySelector("header").remove();
             document.querySelectorAll("div").forEach((div) => {
                 div.remove();
