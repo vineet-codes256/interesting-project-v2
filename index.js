@@ -111,7 +111,7 @@ function openFullscreen(playing) {
             console.log(e)
         };
     } else {
-        if (document.querySelector("header") || document.querySelectorAll("div")) {
+        if (document.querySelector("header")) {
             document.querySelector("header").remove();
             document.querySelectorAll("div").forEach((div) => {
                 div.remove();
